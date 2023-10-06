@@ -51,7 +51,7 @@ public class GameBoard implements IGameModel
         if (board[col][row] == -1) // Check if the cell is empty
         {
             board[col][row] = currentPlayer; // Checks which player is playing and sets the square to 0,0 or 1,1 making it unusable
-            currentPlayer = (currentPlayer == 0) ? 1 : 0; // Short form if-else statement I found :D but this changes the players turn
+            currentPlayer = (currentPlayer == 0) ? 1 : 0; // Short form if-else statement: this changes the players turn
             return true; //
         }
         return false; // if the cell has a number in it, will not let the game progress
