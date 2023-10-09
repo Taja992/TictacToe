@@ -20,16 +20,9 @@ public class GameBoard implements IGameModel
 
     public GameBoard()
     {
-        board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
-
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                board[i][j] = -1;
-            }
-        }
+        newGame();
     }
+    
     public int getNextPlayer()          //TODO Implement this method
     {
         return currentPlayer;
@@ -125,6 +118,7 @@ public class GameBoard implements IGameModel
     {
         //if(getWinner() == 1){
         // board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
+        board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
 
         for (int i = 0; i < 3; i++)
         {
