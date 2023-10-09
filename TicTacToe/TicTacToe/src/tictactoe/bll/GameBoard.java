@@ -57,10 +57,9 @@ public class GameBoard implements IGameModel
         return false; // if the cell has a number in it, will not let the game progress
     }
 
-    public boolean isGameOver()
+    public boolean isGameOver()        //TODO Implement this method
     {
-        //TODO Implement this method
-        return false;
+        return checkWin(0) || checkWin(1) || isBoardFull(); // simply sends true if any of these are met, false if not
     }
 
     /**
@@ -68,19 +67,72 @@ public class GameBoard implements IGameModel
      *
      * @return int id of winner, or -1 if draw.
      */
-    public int getWinner()
+    private boolean checkWin(int player) {  //adding a checkWin method that can be called in both isGameOver and getWinner
+
+        for (int i = 0; i < 3; i++)  // used to check all spots
+        {
+            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) { //checking rows for win
+                return true;
+            }
+            if (board[0][i] == player && board[1][i] == player && board[2][i] == player){ //checking columns for win
+                return true;
+            }
+        }
+        if (board[0][0] == player && board[1][1] == player && board[2][2] == player){ //checking for diagonals
+            return true;
+        }
+        if (board[0][2] == player && board[1][1] == player && board[2][0] == player){ //checking for diagonals
+            return true;
+        }
+
+        return false; //no win condition met
+    }
+    private boolean isBoardFull(){ //checking the board if there is any more moves left - if not:Draw
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if(board[i][j] == -1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public int getWinner()        //TODO Implement this method
     {
-        //TODO Implement this method
-        return -1;
+        if(checkWin(0))    // Tells the game which player has won
+        {
+            return 0;
+        }
+        if(isBoardFull()){   // Draw conditions met
+            return -1;
+        }
+        else if (checkWin(1))
+        {
+            return 1;
+        }
+        return 1;
     }
 
     /**
      * Resets the game to a new game state.
      */
-    public void newGame()
+    public void newGame()        //TODO Implement this method
     {
-        //TODO Implement this method
+        //if(getWinner() == 1){
+        // board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                board[i][j] = -1;
+            }
+        }
         currentPlayer = 0;
     }
-
 }
