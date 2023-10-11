@@ -7,6 +7,8 @@ package tictactoe.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,8 +34,8 @@ public class TicTacViewController implements Initializable
     public int player = 1;
 
     @FXML
-    private GridPane gridPane;
-    
+    public GridPane gridPane;
+
     private static final String TXT_PLAYER = "Player: ";
     private IGameModel game;
 
@@ -50,16 +52,18 @@ public class TicTacViewController implements Initializable
 
             if (game.play(c, r))
             {
+                Button btn = (Button) event.getSource();
+                String xOrO = player == 0 ? "X" : "O";
+                btn.setText(xOrO);
+
                 if (game.isGameOver())
                 {
                     int winner = game.getWinner();
                     displayWinner(winner);
+                    disableAllButtons(true);  //This will "Turn Off" the game so nothing can be further clicked
                 }
                 else
                 {
-                    Button btn = (Button) event.getSource();
-                    String xOrO = player == 0 ? "X" : "O";
-                    btn.setText(xOrO);
                     setPlayer();
                 }
             }
@@ -70,10 +74,26 @@ public class TicTacViewController implements Initializable
         }
     }
 
+
+    private void disableAllButtons(boolean toggle) {   // "import javafx.collections.ObservableList" used above for the list to function properly
+        ObservableList<Node> children = gridPane.getChildren(); // Creating a new variable 'children' using an array type list that changes as more/less nodes are added or removed
+        int numChildren = children.size();       // Creating 'numChildren' variable and returning a number of how many children there are in the gridPane
+
+        for (int i = 0; i < numChildren; i++) {
+            Node n = children.get(i);   // Assigning 'n' to every node that it rotates through
+
+            if (n instanceof Button) {  //Checks if 'n' is a Button by using 'instanceof' to check the class of each object and look for Buttons
+                Button button = (Button) n; //This uses 'casting' to force our variable 'n' into a Button and call it button
+                button.setDisable(toggle); //This will toggle true or false to disable/enable the button
+            }
+        }
+    }
+
     @FXML
     private void handleNewGame(ActionEvent event)
     {
         game.newGame();
+        disableAllButtons(false);  //This will "Turn On" the game allowing it to be played again!
         setPlayer();
         clearBoard();
     }
@@ -87,7 +107,7 @@ public class TicTacViewController implements Initializable
 
     private void setPlayer()
     {
-        lblPlayer.setText(TXT_PLAYER + (game.getNextPlayer() + 1));
+        lblPlayer.setText(TXT_PLAYER + (game.getNextPlayer()+1));
         player++;
 
     }

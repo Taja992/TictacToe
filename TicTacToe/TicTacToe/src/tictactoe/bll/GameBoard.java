@@ -20,9 +20,16 @@ public class GameBoard implements IGameModel
 
     public GameBoard()
     {
-        newGame();
+        board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                board[i][j] = -1;
+            }
+        }
     }
-    
     public int getNextPlayer()          //TODO Implement this method
     {
         return currentPlayer;
@@ -71,12 +78,12 @@ public class GameBoard implements IGameModel
                 return true;
             }
         }
-        if (board[0][0] == player && board[1][1] == player && board[2][2] == player){ //checking for diagonals
-            return true;
-        }
-        if (board[0][2] == player && board[1][1] == player && board[2][0] == player){ //checking for diagonals
-            return true;
-        }
+            if (board[0][0] == player && board[1][1] == player && board[2][2] == player){ //checking for diagonals
+                return true;
+            }
+            if (board[0][2] == player && board[1][1] == player && board[2][0] == player){ //checking for diagonals
+                return true;
+            }
 
         return false; //no win condition met
     }
@@ -99,7 +106,7 @@ public class GameBoard implements IGameModel
     {
         if(checkWin(0))    // Tells the game which player has won
         {
-            return 0;
+        return 0;
         }
         if(isBoardFull()){   // Draw conditions met
             return -1;
@@ -117,16 +124,16 @@ public class GameBoard implements IGameModel
     public void newGame()        //TODO Implement this method
     {
         //if(getWinner() == 1){
-        // board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
-        board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
+           // board = new int[3][3]; // makes a 3x3 grid and sets every cell to -1 for empty cells
 
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
+            for (int i = 0; i < 3; i++)
             {
-                board[i][j] = -1;
+                for (int j = 0; j < 3; j++)
+                {
+                    board[i][j] = -1;
+                }
             }
-        }
         currentPlayer = 0;
     }
+
 }
